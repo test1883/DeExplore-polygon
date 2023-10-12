@@ -1,15 +1,15 @@
 import face_recognition as fr
 import numpy as np
-from models import React
+from .models import React
 
 
 def is_ajax(request):
-  return request.headers.get('x-requested-with') == 'XMLHttpRequest'
+    return request.headers.get("x-requested-with") == "XMLHttpRequest"
 
 
 def get_encoded_faces():
     """
-    This function loads all user 
+    This function loads all user
     profile images and encodes their faces
     """
     # Retrieve all user profiles from the database
@@ -24,11 +24,13 @@ def get_encoded_faces():
 
         # Load the user's profile image
         face = fr.load_image_file(p.photo.path)
-
+        print(face)
         # Encode the face (if detected)
         face_encodings = fr.face_encodings(face)
+        print(face_encodings)
         if len(face_encodings) > 0:
             encoding = face_encodings[0]
+            print(encoding)
         else:
             print("No face found in the image")
 
@@ -51,7 +53,7 @@ def classify_face(img):
 
     # Load the input image
     img = fr.load_image_file(img)
- 
+
     try:
         # Find the locations of all faces in the input image
         face_locations = fr.face_locations(img)
@@ -76,7 +78,7 @@ def classify_face(img):
                 username = "Unknown"
 
             face_usernames.append(username)
-
+        print(face_usernames)
         # Return the name of the first face in the input image
         return face_usernames[0]
     except:
